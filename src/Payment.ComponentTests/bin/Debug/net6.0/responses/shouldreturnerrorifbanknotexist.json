@@ -1,0 +1,7 @@
+{
+  "error": {
+    "status": 404,
+    "code": "NotFound",
+    "description": "Bank with 100 not exist."
+  }
+}

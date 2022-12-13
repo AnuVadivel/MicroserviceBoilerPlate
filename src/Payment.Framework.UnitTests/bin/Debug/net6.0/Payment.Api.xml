@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Payment.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Payment.Api.Attribute.ApiErrorResponseAttribute">
+            <summary>
+            Abstraction over default swagger attrs and also set default error type as one place  
+            </summary>
+        </member>
+        <member name="T:Payment.Api.Attribute.ApiOperationAttribute">
+            <summary>
+            Abstraction over default swagger attrs  
+            </summary>
+        </member>
+        <member name="T:Payment.Api.Attribute.ApiSuccessResponseAttribute">
+            <summary>
+            Abstraction over default swagger attrs  
+            </summary>
+        </member>
+        <member name="T:Payment.Api.Controller.BankController">
+            <summary>
+            Mediator based controllers. We can make our controllers very thin and delegate required logics to handlers
+            </summary>
+        </member>
+        <member name="M:Payment.Api.Extension.ApiConfigurationExtensions.AddApiConfigServer(Microsoft.Extensions.Configuration.IConfigurationBuilder,Microsoft.Extensions.Configuration.IConfigurationRoot)">
+            <summary>
+            Add configuration server as config provider. When we read configs, priority order highest to lowest
+            config server --> env variable --> app-setting files, which means, if a key-value exists in both
+            app-settings and in config-server, config-server will take precedence.     
+            </summary>
+            <param name="configBuilder"></param>
+            <param name="configRoot"></param>
+        </member>
+        <member name="M:Payment.Api.Extension.ApiConfigurationExtensions.AddApiLogger(Microsoft.Extensions.Hosting.IHostBuilder)">
+            <summary>
+            Configure log provider behaviour here, and when we inject ILogger in classes,these configuration
+            will auto apply everywhere on all logger instances   
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ApiSecurityExtensions.AddApiAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            We can change this method to add/update desired auth policy for the application (Okta, AzureAd, AzureApp,  etc....)
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ApplicationBuilderExtensions.AddApiSecurityResponseHeaders(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Few default security header added as middleware
+            we can update this list as per project needs
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ApplicationBuilderExtensions.AddApiMetrics(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Default Prometheus metrics exporter
+            </summary>
+            <param name="app"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ApplicationBuilderExtensions.AddRequestLogging(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds middleware for streamlined request logging. Instead of writing HTTP request information
+            like method, path, timing, status code and exception details
+            in several events, this middleware collects information during the request (including from
+            <see cref="T:Serilog.IDiagnosticContext" />), and writes a single event at request completion.
+            </summary>
+            <param name="app"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ApplicationBuilderExtensions.AddApiDocumentation(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Add Swagger documentation. It also support authorization to your oAuth server.
+            Configure app-settings with oAuth server required details to provide values in 
+            OAuthClientId, OAuthClientSecret, OAuthRealm
+            </summary>
+            <param name="app"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ServiceCollectionExtensions.AddTelemetry(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Telemetry adds required instrumentation with the Jeager for tracing    
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ServiceCollectionExtensions.AddApiDocumentGeneration(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Add swagger documentation with all required oAuth flow, so that clients can directly authenticate through oAuth
+            server and try all APIs.
+            It also add validation rules added through fluent validation (ref : CreateBankCommandValidator)
+            by extension : AddFluentValidationRulesToSwagger
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ServiceCollectionExtensions.AddMapper(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add AutoMapper for all assemblies 
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Payment.Api.Extension.ServiceCollectionExtensions.AddApiHealthChecks(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Add health check url with all required checks. We can enhance this checks as per the need   
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Payment.Api.Operation.Command.CreateBankCommandHandler">
+            <summary>
+            Handlers can be treated as broken thick application service into smaller specific functional classes
+            </summary>
+        </member>
+        <member name="T:Payment.Api.Operation.Mapper.BankMapper">
+            <summary>
+            We can define all mapping in these mapping classes
+            </summary>
+        </member>
+        <member name="T:Payment.Api.Startup">
+            <summary>
+            Start will have all app level set up. Try to have this file as thin and readable as possible and move
+            components in required extension configuration methods 
+            </summary>
+        </member>
+        <member name="M:Payment.Api.Startup.AddApiAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method is defined as virtual so that we can override default behaviour
+            in component tests if required to change default auth implementation  
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Payment.Api.Startup.AddDbContexts(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method is defined as virtual so that we can override default behaviour
+            in component tests if required to change default db context  
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Payment.Api.Startup.AddMvcServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method is defined as virtual so that we can override default behaviour
+            in component tests if required to change default MVC services set up
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>

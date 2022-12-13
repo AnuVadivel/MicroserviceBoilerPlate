@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "8Ar+480XSgQO8s9ZBL2nCMlEprjM24Cw1iRhM0ZocNkSiVGxkEpv3Kj+c3xrcszRtk6xeRaeAXoizpABil1Y2g==",
+  "success": true,
+  "projectFilePath": "/Users/anuvadivel/Space/Space_StarterKit/src/src/Payment.Domain/Payment.Domain.csproj",
+  "expectedPackageFiles": [
+    "/Users/anuvadivel/.nuget/packages/fluentvalidation/11.4.0/fluentvalidation.11.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

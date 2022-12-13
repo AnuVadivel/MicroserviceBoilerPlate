@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+
+COPY *.sln .
+COPY Payment.Api/*.csproj ./Payment.Api/
+COPY Payment.Domain/*.csproj ./Payment.Domain/
+COPY Payment.Persistence/*.csproj ./Payment.Persistence/
+COPY Payment.Framework/*.csproj ./Payment.Framework/
+
+RUN dotnet restore Payment.Api/Payment.Api.csproj
+
+COPY Payment.Api/. ./Payment.Api/
+COPY Payment.Domain/. ./Payment.Domain/
+COPY Payment.Persistence/. ./Payment.Persistence/
+COPY Payment.Framework/. ./Payment.Framework/
+
+RUN dotnet publish Payment.Api/Payment.Api.csproj -c release -o /app
+
+# exporting final image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build /app ./
+EXPOSE 5000
+ENTRYPOINT ["dotnet", "Payment.Api.dll"]

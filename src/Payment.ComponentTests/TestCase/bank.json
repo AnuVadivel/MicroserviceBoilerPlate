@@ -1,0 +1,37 @@
+{
+  "ShouldCreateABank": {
+    "api": {
+      "request": {
+        "method": "POST",
+        "path": "/api/bank",
+        "body": {
+          "name": "ICICI",
+          "ifscCode": "ICICI-000123"
+        }
+      },
+      "response": {
+        "statusCode": 201,
+        "body": {
+          "bankId": 1
+        }
+      }
+    }
+  },
+  "ShouldReturnBankForGivenBankId": {
+    "api": {
+      "request": {
+        "method": "GET",
+        "path": "/api/bank/1"
+      },
+      "response": {
+        "statusCode": 200,
+        "headers": {},
+        "body": {
+          "id": 1,
+          "name": "ICICI",
+          "ifscCode": "ICICI-000123"
+        }
+      }
+    }
+  }
+}
